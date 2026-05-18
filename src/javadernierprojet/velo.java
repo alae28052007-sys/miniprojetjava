@@ -12,11 +12,41 @@ public class velo {
     private int niveauBatterie; 
     private boolean estLoue;
 
-    public velo(String modele) {
-        this.modele = modele;
-        this.niveauBatterie = 100; 
-        this.estLoue = false;
+    public velo(int id, String marque, int niveauBatterie, double capaciteBatterie) {
+    this.id = id;
+    this.marque = marque;
+    setNiveauBatterie(niveauBatterie)
+    this.capaciteBatterie = capaciteBatterie;
+    this.estLoue = false;
+}
+    public double getCapaciteBatterie() {
+        return capaciteBatterie;
+}
+    public void setCapaciteBatterie(double capacite) {
+    if (capacite < 300 || capacite > 1000) {
+        throw new IllegalArgumentException(
+            "Capacite invalide : " + capacite +
+            ". Doit etre entre 300 et 1000 Wh."
+        );
     }
+    this.capaciteBatterie = capacite;
+}
+    public double getCapaciteBatterie() {
+    return capaciteBatterie;
+}
+    public void setCapaciteBatterie(double capacite) {
+    if (capacite < 300 || capacite > 1000) {
+        throw new IllegalArgumentException(
+            "Capacite invalide : " + capacite +
+            ". Doit etre entre 300 et 1000 Wh."
+        );
+    }
+    this.capaciteBatterie = capacite;
+}
+    public double getAutonomieKm() {
+    return (capaciteBatterie * niveauBatterie / 100.0) / 5.0;
+}
+
 
     // Getters et Setters de base
     public String getModele() { return modele; }
