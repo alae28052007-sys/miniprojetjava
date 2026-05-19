@@ -13,21 +13,22 @@ public class Javadernierprojet {
     /**
      * @param args the command line arguments
      */
+    import java.time.LocalDateTime;
+
+public class Main {
     public static void main(String[] args) {
-        station maStation = new station("Centre-Ville");
 
-        velo v1 = new velo("E-Ride 2000");
-        velo v2 = new velo("Volt-Bike");
+        Velo velo = new Velo(1, "Trek", 100, 500);
 
-        maStation.ajouterVelo(v1);
-        maStation.ajouterVelo(v2);
+        velo.louer();
+        System.out.println("Velo loue : " + velo);
+        velo.restituer(70);
+        System.out.println("Velo restitue : " + velo);
 
-        maStation.afficherEtatStation();
-        
-        // Simulation d'une location
-        v1.setEstLoue(true);
-        v1.setNiveauBatterie(45);
-        
-        maStation.afficherEtatStation();
+        velo.louer();
+        velo.restituer(40);
+
+        velo.afficherHistorique();
     }
-    }
+}
+

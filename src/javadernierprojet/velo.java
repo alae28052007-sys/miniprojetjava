@@ -2,6 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -11,6 +14,7 @@ public class velo {
     private String modele;
     private int niveauBatterie; 
     private boolean estLoue;
+    private List<HistoriqueLocation> historique = new ArrayList<>();
 
     public velo(int id, String marque, int niveauBatterie, double capaciteBatterie) {
     this.id = id;
@@ -47,7 +51,6 @@ public class velo {
     return (capaciteBatterie * niveauBatterie / 100.0) / 5.0;
 }
 
-
     // Getters et Setters de base
     public String getModele() { return modele; }
     
@@ -69,5 +72,39 @@ public class velo {
     public void afficherInfos() {
         String statut = estLoue ? "Loué" : "Disponible";
         System.out.println("Velo " + modele + " | Batterie: " + niveauBatterie + "% | Statut: " + statut);
+    }
+}
+public void louer() {
+    if (this.estLoue) {
+        System.out.println("Erreur : ce velo est deja loue.");
+        return;
+    }
+    // Creer un enregistrement d'historique avec la date actuelle
+    HistoriqueLocation loc = new HistoriqueLocation(
+        LocalDateTime.now(), this.niveauBatterie
+    );
+    historique.add(loc);
+    this.estLoue = true;
+}
+public void restituer(int niveauFin) {
+    if (!this.estLoue) {
+        System.out.println("Erreur : ce velo n'est pas loue.");
+        return;
+    }
+    // Cloturer la derniere location de l'historique
+    if (!historique.isEmpty()) {
+        HistoriqueLocation derniere = historique.get(historique.size() - 1);
+        derniere.terminer(LocalDateTime.now(), niveauFin);
+    }
+    setNiveauBatterie(niveauFin);
+    this.estLoue = false;
+public void afficherHistorique() {
+    System.out.println("=== Historique du velo " + id + " (" + marque + ") ===");
+    if (historique.isEmpty()) {
+        System.out.println("Aucune location enregistree.");
+    } else {
+        for (int i = 0; i < historique.size(); i++) {
+            System.out.println((i + 1) + ". " + historique.get(i));
+        }
     }
 }
